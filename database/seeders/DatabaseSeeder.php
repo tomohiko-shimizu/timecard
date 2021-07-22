@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         \App\Models\User::factory()->count(3)->create();
+        \App\Models\Timecard::factory()->count(3)->create();
+        \App\Models\Rest::factory()->count(3)->create();
     }
 }

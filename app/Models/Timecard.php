@@ -9,4 +9,9 @@ class Timecard extends Model
 {
     use HasFactory;
     protected $guarded = array('id');
+
+    public function rests()
+    {
+        return $this->hasMany('App\Models\Rest');
+    }
 }

@@ -15,7 +15,7 @@ class CreateTimecardsTable extends Migration
     {
         Schema::create('timecards', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id');
             $table->date('date');
             $table->timestamp('work_start');
             $table->timestamp('work_finish')->nullable();
