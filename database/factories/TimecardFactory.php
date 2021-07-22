@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Timecard;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 
@@ -25,6 +26,7 @@ class TimecardFactory extends Factory
         // $now = \Carbon\Carbon::now();
         $carbon = new Carbon('09:00:00');
         return [
+            'user_id' => User::inRandomOrder()->first()->id,
             'date' => date('Y-m-d'),
             'work_start' => $carbon,
             'work_finish' => $carbon->addHours(9)
