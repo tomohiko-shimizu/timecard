@@ -28,7 +28,7 @@ class RestFactory extends Factory
         return [
             'timecard_id' => Timecard::inRandomOrder()->first()->id,
             'rest_start' =>  $carbon,
-            'rest_finish' => $carbon->addHours()
+            'rest_finish' => $carbon->copy()->addHours()
         ];
     }
 }
