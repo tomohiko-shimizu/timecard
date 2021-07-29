@@ -29,7 +29,7 @@ class TimecardFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id,
             'date' => date('Y-m-d'),
             'work_start' => $carbon,
-            'work_finish' => $carbon->addHours(9)
+            'work_finish' => $carbon->copy()->addHours(9)
         ];
     }
 }
