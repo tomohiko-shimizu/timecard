@@ -46,4 +46,11 @@ class TimecardController extends Controller
         ]);
         return redirect('/');
     }
+
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect('login');
+    }
 }

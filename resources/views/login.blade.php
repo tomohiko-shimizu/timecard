@@ -17,3 +17,7 @@
     </tr>
   </table>
 </form>
+
+<div>
+  <a href="/register">{{ __('新規登録') }}</a>
+</div>

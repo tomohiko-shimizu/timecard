@@ -57,3 +57,7 @@
     </tr>
   </table>
 </form>
+
+<div>
+  <a href="/login">{{ __('登録済みの場合はログイン') }}</a>
+</div>

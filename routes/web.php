@@ -17,14 +17,14 @@ use App\Http\Middleware\LoginMiddleware;
 |
 */
 
-Route::get('/', [TimecardController::class, 'index']);
-// Route::get('/', [TimecardController::class, 'index'])->middleware('login');
+Route::get('/', [TimecardController::class, 'index'])->middleware('unauth');
 Route::get('/login', [LoginController::class, 'getAuth'])->middleware('login');
 Route::post('/login', [LoginController::class, 'postAuth']);
 Route::get('/register', [RegisterController::class, 'getSignup']);
 Route::post('/register', [RegisterController::class, 'postSignup']);
 Route::post('workstart', [TimecardController::class, 'workStart'])->name('workstart');
 Route::post('workfinish', [TimecardController::class, 'workFinish'])->name('workfinish');
+Route::get('logout', [TimecardController::class, 'getLogout'])->name('logout');
 
 
 

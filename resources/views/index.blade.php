@@ -4,9 +4,7 @@
 <p>
   {{$user}}さん
 </p>
-<p>
 
-</p>
 <form action="{{ route('workstart') }}" method="post">
   @csrf
   <button type="submit">出勤</button>
@@ -16,3 +14,7 @@
   @csrf
   <button type="submit">退勤</button>
 </form>
+
+<div>
+  <a href="{{route('logout')}}">{{ __('Logout') }}</a>
+</div>
