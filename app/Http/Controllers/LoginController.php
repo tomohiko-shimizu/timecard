@@ -26,7 +26,7 @@ class LoginController extends Controller
         ])) {
             $user = Auth::user()->name;
             // $text = Auth::user()->name . 'さんがログインしました';
-            return view('index', ['user' => $user]);
+            return redirect('/');
         }
         // else {
         //     $text = 'ログインに失敗しました。';

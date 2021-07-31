@@ -13,20 +13,31 @@ class TimecardController extends Controller
 {
     public function index()
     {
-        $user = Auth::user()->name;
-        return view('index', ['user' => $user]);
+        $user = Auth::user();
+        $today = Carbon::today();
+        $timestamp = Timecard::where('user_id', $user->id)->where('date', $today)->first();
+        $startedWork = false;
+        if ($timestamp !== null) {
+            $startedWork  = true;
+        } else {
+            $startedWork = false;
+        }
+        return view('index', ['user' => $user, 'startedWork' => $startedWork]);
     }
 
 
     public function workStart()
     {
         $user = Auth::user();
-        $timestamp = Timecard::where('user_id', $user->id)->latest()->first();
-        $timestamp = Timecard::create([
-            'user_id' => $user->id,
-            'date' => Carbon::today(),
-            'work_start' => Carbon::now(),
-        ]);
+        $today = Carbon::today();
+        $timestamp = Timecard::where('user_id', $user->id)->where('date', $today)->first();
+        if ($timestamp === null) {
+            $timestamp = Timecard::create([
+                'user_id' => $user->id,
+                'date' => $today,
+                'work_start' => Carbon::now(),
+            ]);
+        }
         return redirect('/');
     }
 
