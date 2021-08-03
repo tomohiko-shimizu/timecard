@@ -24,14 +24,12 @@ class LoginController extends Controller
             'email' => $email,
             'password' => $password
         ])) {
-            $user = Auth::user()->name;
+            $user = Auth::user();
             // $text = Auth::user()->name . 'さんがログインしました';
-            return view('index', ['user' => $user]);
+            return redirect('/');
+        } else {
+            $text = '登録情報がありません。';
         }
-        // else {
-        //     $text = 'ログインに失敗しました。';
-        // }
-        // return view('login', ['text' => $text]);
+        return view('login', ['text' => $text]);
     }
-
 }

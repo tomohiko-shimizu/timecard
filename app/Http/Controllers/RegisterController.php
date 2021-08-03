@@ -45,6 +45,6 @@ class RegisterController extends Controller
         Auth::login($user);
 
         // return redirect(RouteServiceProvider::HOME);
-        return view('index', ['user' => $user->name]);
+        return redirect('/');
     }
 }
