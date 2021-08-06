@@ -14,4 +14,9 @@ class Timecard extends Model
     {
         return $this->hasMany('App\Models\Rest');
     }
+
+    public function getWorkStart()
+    {
+        return $this->work_start;
+    }
 }

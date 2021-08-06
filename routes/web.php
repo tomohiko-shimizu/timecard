@@ -3,6 +3,7 @@
 use App\Http\Controllers\TimecardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LoginMiddleware;
 
@@ -31,6 +32,10 @@ Route::post('workfinish', [TimecardController::class, 'workFinish'])->name('work
 
 Route::post('reststart', [TimecardController::class, 'restStart'])->name('reststart');
 Route::post('restfinish', [TimecardController::class, 'restFinish'])->name('restfinish');
+
+Route::get('attendance', [AttendanceController::class, 'attendance']);
+Route::post('attendance', [AttendanceController::class, 'attendance']);
+
 
 Route::get('logout', [TimecardController::class, 'getLogout'])->name('logout');
 

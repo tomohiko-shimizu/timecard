@@ -25,7 +25,6 @@ class LoginController extends Controller
             'password' => $password
         ])) {
             $user = Auth::user();
-            // $text = Auth::user()->name . 'さんがログインしました';
             return redirect('/');
         } else {
             $text = '登録情報がありません。';

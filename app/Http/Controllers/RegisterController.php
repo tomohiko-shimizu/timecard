@@ -45,6 +45,7 @@ class RegisterController extends Controller
         Auth::login($user);
 
         // return redirect(RouteServiceProvider::HOME);
-        return redirect('/');
+        // return redirect('/');
+        return redirect()->action([TimecardController::class, 'index']);
     }
 }
