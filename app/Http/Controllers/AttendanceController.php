@@ -19,7 +19,7 @@ class AttendanceController extends Controller
         $day = Carbon::today();
         $addDay = $day->copy()->addDay();
         $subDay = $day->copy()->subDay();
-        // $items = Timecard::where('user_id', $user->id)->where('date', $day)->get();
+        $items = Timecard::where('date', $day)->get();
         return view('attendance', compact('items', 'day', 'addDay', 'subDay'));
     }
 

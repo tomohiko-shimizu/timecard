@@ -20,15 +20,11 @@
   </tr>
   @foreach($items as $item)
   <tr>
-    <td>{{$item->name}}</td>
-    @if($item->work_start !== null)
-    @foreach($item->work_start as $obj)
-    <td>{{$obj->getWorkStart()}}</td>
-    @endforeach
-    @endif
-    <td></td>
+    <td>{{$item->user->name}}</td>
+    <td>{{$item->work_start}}</td>
+    <td>{{$item->work_finish}}</td>
     <td></td>
     <td></td>
   </tr>
+  @endforeach
 </table>
-@endforeach

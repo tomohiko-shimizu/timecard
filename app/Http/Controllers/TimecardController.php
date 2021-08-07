@@ -22,13 +22,21 @@ class TimecardController extends Controller
 
         // 退勤チェック
         $timestampForFinishWork = Timecard::where('user_id', $user->id)->where('work_finish', $now)->latest()->first();
-
         // 休憩チェック
-        $id = Timecard::where('user_id', $user->id)->latest()->first();
-        $timestampForStartRest = Rest::whereIn('timecard_id', $id)->whereNotNull('rest_start')->latest()->first();
-
+        $timecard = Timecard::where('user_id', $user->id)->latest()->first();
+        if ($timecard === null) {
+            $timestampForStartRest = null;
+        } else {
+            $timestampForStartRest = Rest::where('timecard_id', $timecard->id)->whereNotNull('rest_start')->latest()->first();
+        }
         // 休憩終了チェック
-        $timestampForFinishRest = Rest::whereIn('timecard_id', $id)->WhereNull('rest_finish')->latest()->first();
+        if ($timecard === null) {
+            $timestampForFinishRest = null;
+        } else {
+            $timestampForFinishRest = Rest::where('timecard_id', $timecard->id)->WhereNull('rest_finish')->latest()->first();
+        }
+
+        
         // $timestampForFinishRest = Rest::whereNull('rest_finish')->whereIn('timecard_id', $id);
         // $timestampForFinishRest->latest()->first();
 
@@ -46,14 +54,14 @@ class TimecardController extends Controller
             $finishedRest = true;
 
             // 休憩
-        } else if ($timestampForStartRest !== null && $timestampForFinishRest === null) {
+        } else if ($timestampForStartRest !== null && $timestampForFinishRest !== null) {
             $startedWork = true;
             $finishedWork = true;
             $startedRest = true;
             $finishedRest = false;
 
             // 休憩終了
-        } else if ($timestampForFinishRest !== null) {
+        } else if ($timestampForFinishRest  === null) {
             $startedWork = true;
             $finishedWork = false;
             $startedRest = false;
@@ -100,8 +108,6 @@ class TimecardController extends Controller
     {
         $user = Auth::user();
         $timestamp = Timecard::where('user_id', $user->id)->latest()->first();
-        // var_dump($timestamp);
-
         $timestamp->update([
             'work_finish' => Carbon::now(),
         ]);
