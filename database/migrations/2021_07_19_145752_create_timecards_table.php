@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateTimecardsTable extends Migration
 {
@@ -17,7 +18,7 @@ class CreateTimecardsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->date('date');
-            $table->timestamp('work_start');
+            $table->timestamp('work_start')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('work_finish')->nullable();
             $table->timestamps();
 

@@ -19,4 +19,9 @@ class Timecard extends Model
     {
         return $this->work_start;
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateRestsTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreateRestsTable extends Migration
         Schema::create('rests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('timecard_id');
-            $table->timestamp('rest_start');
+            $table->timestamp('rest_start')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('rest_finish')->nullable();
             $table->timestamps();
 

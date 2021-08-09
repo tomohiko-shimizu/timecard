@@ -24,36 +24,41 @@ class TimecardController extends Controller
         $timestampForFinishWork = Timecard::where('user_id', $user->id)->where('work_finish', $now)->latest()->first();
 
         // 休憩チェック
-        $id = Timecard::where('user_id', $user->id)->latest()->first();
-        $timestampForStartRest = Rest::whereIn('timecard_id', $id)->whereNotNull('rest_start')->latest()->first();
+        $timecard = Timecard::where('user_id', $user->id)->where('date', $today)->latest()->first();
+        if ($timecard === null) {
+            $timestampForStartRest = null;
+        } else {
+            $timestampForStartRest = Rest::where('timecard_id', $timecard->id)->whereNotNull('rest_start')->latest()->first();
+        }
 
         // 休憩終了チェック
-        $timestampForFinishRest = Rest::whereIn('timecard_id', $id)->WhereNull('rest_finish')->latest()->first();
-        // $timestampForFinishRest = Rest::whereNull('rest_finish')->whereIn('timecard_id', $id);
-        // $timestampForFinishRest->latest()->first();
-
-        // 初回アクセス時
-        $startedWork = false;
-        $finishedWork = true;
-        $startedRest = true;
-        $finishedRest = true;
+        if ($timecard === null) {
+            $timestampForFinishRest = null;
+        } else {
+            $timestampForFinishRest = Rest::where('timecard_id', $timecard->id)->WhereNull('rest_finish')->latest()->first();
+        }
 
         // 退勤
-        if ($timestampForFinishWork !== null) {
+        if ($timestamp === null) {
+            $startedWork = false;
+            $finishedWork = true;
+            $startedRest = true;
+            $finishedRest = true;
+        } else if ($timestampForFinishWork !== null) {
             $startedWork = true;
             $finishedWork = true;
             $startedRest = true;
             $finishedRest = true;
 
             // 休憩
-        } else if ($timestampForStartRest !== null && $timestampForFinishRest === null) {
+        } else if ($timestampForStartRest !== null && $timestampForFinishRest !== null) {
             $startedWork = true;
             $finishedWork = true;
             $startedRest = true;
             $finishedRest = false;
 
             // 休憩終了
-        } else if ($timestampForFinishRest !== null) {
+        } else if ($timestampForStartRest !== null && $timestampForFinishRest === null) {
             $startedWork = true;
             $finishedWork = false;
             $startedRest = false;
@@ -131,15 +136,12 @@ class TimecardController extends Controller
         $user = Auth::user();
         $today = Carbon::today();
         $id = Timecard::where('user_id', $user->id)->latest()->first();
-        // $timecardId = Timecard::where('user_id', $user->id)->where('date', $today)->latest()->first();
-        // $timestamp = Rest::where('timecard_id', $id->id)->latest()->first();
         $timestamp = Rest::whereIn('timecard_id', $id)->latest()->first();
         $timestamp->update([
             'rest_finish' => Carbon::now(),
         ]);
         return redirect()->action([TimecardController::class, 'index']);
     }
-
 
 
     public function getLogout()
