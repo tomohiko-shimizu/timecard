@@ -36,7 +36,11 @@ Route::post('restfinish', [TimecardController::class, 'restFinish'])->name('rest
 Route::get('attendance', [AttendanceController::class, 'attendance']);
 Route::post('attendance', [AttendanceController::class, 'attendance']);
 
-Route::get('dateSample', [TimecardController::class, 'dateSample']);
+
+
+Route::get('test', [AttendanceController::class, 'requestDate'])->name('test');
+
+// Route::get('dateSample', [TimecardController::class, 'dateSample']);
 
 Route::get('logout', [TimecardController::class, 'getLogout'])->name('logout');
 
