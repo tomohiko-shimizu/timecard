@@ -173,7 +173,7 @@ class TimecardController extends Controller
         // 勤務時間の○秒の部分を計算する
         $work_time_second = $work_time % 60;
 
-        return "あなたの勤務時間(休憩考慮しない)は${work_time_hour}:${work_time_minute}:${work_time_second}です";
+        return view('dateSample', ['timecard' => $timecard]);
     }
 
 
