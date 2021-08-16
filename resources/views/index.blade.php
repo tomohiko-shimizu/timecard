@@ -1,38 +1,32 @@
-<h2>
-  {{ __('Timecard') }}
-</h2>
-<p>
-  {{$user->name}}さん
+@extends('layouts.layout')
+@section('title', '打刻ページ')
 
-  @if($startedRest)
-  退勤済み
-  @elseif($startedWork)
-  出勤済み
-  @else
-  出勤ボタンを押してください
-  @endif
-</p>
+@section('content')
 
-<form action="{{ route('workstart') }}" method="post">
-  @csrf
-  <button type="submit" @if($startedWork) disabled @endif>出勤</button>
-</form>
+<h3 class="content-title mb-20">{{$user->name}}さんお疲れ様です！</h3>
 
-<form action="{{ route('workfinish') }}" method="post">
-  @csrf
-  <button type="submit" @if($finishedWork) disabled @endif>退勤</button>
-</form>
+<div class="timecard-container">
+  <form action="{{ route('workstart') }}" method="post" class="form-timecard">
+    @csrf
+    <button type="submit" class="button-timecard" @if($startedWork) disabled @endif>勤務開始</button>
+  </form>
 
-<form action="{{ route('reststart') }}" method="post">
-  @csrf
-  <button type="submit" @if($startedRest) disabled @endif>休憩開始</button>
-</form>
-
-<form action="{{ route('restfinish') }}" method="post">
-  @csrf
-  <button type="submit" @if($finishedRest) disabled @endif>休憩終了</button>
-</form>
-
-<div>
-  <a href="{{route('logout')}}">{{ __('Logout') }}</a>
+  <form action="{{ route('workfinish') }}" method="post" class="form-timecard">
+    @csrf
+    <button type="submit" class="button-timecard" @if($finishedWork) disabled @endif>勤務終了</button>
+  </form>
 </div>
+
+<div class="timecard-container">
+  <form action="{{ route('reststart') }}" method="post" class="form-timecard">
+    @csrf
+    <button type="submit" class="button-timecard" @if($startedRest) disabled @endif>休憩開始</button>
+  </form>
+
+  <form action="{{ route('restfinish') }}" method="post" class="form-timecard">
+    @csrf
+    <button type="submit" class="button-timecard" @if($finishedRest) disabled @endif>休憩終了</button>
+  </form>
+</div>
+
+@endsection

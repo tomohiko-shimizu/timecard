@@ -1,23 +1,21 @@
-<p>{{$text}}</p>
-<!-- <form action="/login" method="post"> -->
-<form action="/login" method="post">
-  <table>
-    @csrf
-    <tr>
-      <th>mail: </th>
-      <td><input type="text" name="email"></td>
-    </tr>
-    <tr>
-      <th>pass: </th>
-      <td><input type="password" name="password"></td>
-    </tr>
-    <tr>
-      <th></th>
-      <td><input type="submit" value="send"></td>
-    </tr>
-  </table>
-</form>
+@extends('layouts.layout')
+@section('title', 'ログイン')
 
-<div>
-  <a href="/register">{{ __('新規登録') }}</a>
-</div>
+@section('content')
+  <h3 class="content-title mb-20">{{$text}}</h3>
+
+  <form action="/login" class="form" method="post">
+    <div>
+      @csrf
+      <input type="text" name="email" placeholder="メールアドレス" class="input-content mb-20">
+      <input type="password" name="password" placeholder="パスワード" class="input-content mb-20">
+      <input type="submit" value="ログイン" class="button mb-20">
+    </div>
+  </form>
+
+  <div>
+    <p class="msg-alter">アカウントをお持ちでない方はこちらから</p>
+    <a href="/register" class="link-alter">{{ __('会員登録') }}</a>
+  </div>
+
+@endsection

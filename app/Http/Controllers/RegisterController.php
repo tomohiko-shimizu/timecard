@@ -13,9 +13,10 @@ use App\Providers\RouteServiceProvider;
 
 class RegisterController extends Controller
 {
-    public function getSignup()
+    public function getSignup(Request $request)
     {
-        return view('register');
+        $text = ['text' => '会員登録'];
+        return view('register', $text);
     }
     public function postSignup(Request $request)
     {

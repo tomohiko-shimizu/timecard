@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function getAuth(Request $request)
     {
-        $text = ['text' => 'ログインしてください'];
+        $text = ['text' => 'ログイン'];
         return view('login', $text);
     }
 

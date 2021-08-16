@@ -1,63 +1,41 @@
-<p>test</p>
-@if(count($errors) > 0)
-<p>入力に問題があります</p>
-@endif
-<form action="/register" method="post">
-  <table>
-    @csrf
+@extends('layouts.layout')
+@section('title', '会員登録')
 
-    @if($errors->has('name'))
-    <tr>
-      <th>ERROR</th>
-      <td>
-        {{$errors->first('name')}}
-      </td>
-    </tr>
-    @endif
+@section('content')
+  <h3 class="content-title mb-20">{{$text}}</h3>
 
-    <tr>
-      <th>name: </th>
-      <td><input type="text" name="name"></td>
-    </tr>
+      @if(count($errors) > 0)
+        <p class="error-msg">入力に問題があります。</p>
+      @endif
 
-    @if($errors->has('email'))
-    <tr>
-      <th>ERROR</th>
-      <td>
-        {{$errors->first('email')}}
-      </td>
-    </tr>
-    @endif
+  <form action="/register" class="form" method="post">
+    <div>
+      @csrf
 
-    <tr>
-      <th>mail: </th>
-      <td><input type="text" name="email"></td>
-    </tr>
+      @if($errors->has('name'))
+        <p class="error-msg">{{$errors->first('name')}}</p>
+      @endif
+      <input type="text" name="name"  placeholder="名前" class="input-content mb-20">
 
-    @if($errors->has('password'))
-    <tr>
-      <th>ERROR</th>
-      <td>
-        {{$errors->first('password')}}
-      </td>
-    </tr>
-    @endif
+      @if($errors->has('email'))
+        <p class="error-msg">{{$errors->first('email')}}</p>
+      @endif
+      <input type="text" name="email" placeholder="メールアドレス" class="input-content mb-20">
 
-    <tr>
-      <th>pass: </th>
-      <td><input type="password" name="password"></td>
-    </tr>
-    <tr>
-      <th>confirm: </th>
-      <td><input type="password" name="password_confirmation"></td>
-    </tr>
-    <tr>
-      <th></th>
-      <td><input type="submit" value="send"></td>
-    </tr>
-  </table>
-</form>
+      @if($errors->has('password'))
+        <p class="error-msg">{{$errors->first('password')}}</p>
+      @endif
+      <input type="password" name="password" placeholder="パスワード" class="input-content mb-20">
 
-<div>
-  <a href="/login">{{ __('登録済みの場合はログイン') }}</a>
-</div>
+      <input type="password" name="password_confirmation" placeholder="確認用パスワード" class="input-content mb-20">
+
+      <input type="submit" value="会員登録" class="button mb-20">
+    </div>
+  </form>
+  <div>
+    <p class="msg-alter">アカウントをお持ちの方はこちらから</p>
+    <a href="/login" class="link-alter">{{ __('ログイン') }}</a>
+  </div>
+
+@endsection
+

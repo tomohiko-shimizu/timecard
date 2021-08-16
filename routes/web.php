@@ -19,8 +19,6 @@ use App\Http\Middleware\LoginMiddleware;
 */
 
 Route::get('/', [TimecardController::class, 'index'])->middleware('unauth');
-// Route::post('/', [TimecardController::class, 'workFinish']);
-
 Route::get('/login', [LoginController::class, 'getAuth'])->middleware('login');
 Route::post('/login', [LoginController::class, 'postAuth']);
 
@@ -34,12 +32,11 @@ Route::post('reststart', [TimecardController::class, 'restStart'])->name('restst
 Route::post('restfinish', [TimecardController::class, 'restFinish'])->name('restfinish');
 
 Route::get('attendance', [AttendanceController::class, 'attendance']);
-Route::post('attendance', [AttendanceController::class, 'attendance']);
+
+Route::get('attendance/{subDay}', [AttendanceController::class, 'subday'])->name('attendance/{subDay}');
 
 
-
-Route::get('test', [AttendanceController::class, 'requestDate'])->name('test');
-
+// Route::get('test/{subDay}', [AttendanceController::class, 'test'])->name('test/{subDay}');
 // Route::get('dateSample', [TimecardController::class, 'dateSample']);
 
 Route::get('logout', [TimecardController::class, 'getLogout'])->name('logout');
