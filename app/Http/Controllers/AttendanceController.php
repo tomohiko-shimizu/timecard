@@ -9,14 +9,19 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function attendance()
+    public function attendance(Request $request)
     {
-        $day = Carbon::today();
+        $date = $request->date;
+        if ($date === null) {
+            $day = Carbon::today();
+        } else {
+            $day = new Carbon($date);
+        }
         $addDay = $day->addDay();
         $subDay = $day->subDay();
 
         $items = Timecard::where('date', $day)->get();
-
+        /*
         foreach ($items as $item) {
             $work_start = new Carbon($item->work_start);
             $work_finish = new Carbon($item->work_finish);
@@ -26,6 +31,7 @@ class AttendanceController extends Controller
             $work_time_second = $work_time % 60;
         }
 
+        */
         return view(
             'attendance',
             compact(

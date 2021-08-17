@@ -44,7 +44,7 @@
     <td>{{$item->user->name}}</td>
     <td>{{$item->work_start->format('H:i:s')}}</td>
     <td>{{$item->work_finish->format('H:i:s')}}</td>
-    <td>{{$item->rest->getRestTime()}}</td>
+    <td>{{$item->getRestTime()}}</td>
     <td>{{$item->getWorkTime()}}</td>
   </tr>
 @endforeach
