@@ -25,9 +25,9 @@
 @section('content')
 
 <div class="content-title mb-20">
-  <a href="{{route('attendance/{subDay}', ['subDay' => $subDay->format('Y-m-d')])}}" class="button-date">＜</a>
-    <h3 class="content-title">{{$day->format('Y-m-d')}}</h3>
-  <a href="" class="button-date">＞</a>
+  <a class="button-date" href="?date={{$day->subDay()->format('Ymd')}}">＜</a>
+  <h3 class="content-title">{{$day->addDay()->format('Y-m-d')}}</h3>
+  <a class="button-date" href="?date={{$day->addDay()->format('Ymd')}}">＞</a>
 </div>
 
 <table class="attendance-table">
@@ -44,10 +44,10 @@
     <td>{{$item->user->name}}</td>
     <td>{{$item->work_start->format('H:i:s')}}</td>
     <td>{{$item->work_finish->format('H:i:s')}}</td>
-    <td>{{$item->rest->getRestTime()}}</td>
+    <td>{{$item->getRestTime()}}</td>
     <td>{{$item->getWorkTime()}}</td>
   </tr>
 @endforeach
 </table>
-{{-- {{$items->links()}} --}}
+
 @endsection

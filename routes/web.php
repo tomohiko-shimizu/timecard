@@ -33,11 +33,6 @@ Route::post('restfinish', [TimecardController::class, 'restFinish'])->name('rest
 
 Route::get('attendance', [AttendanceController::class, 'attendance']);
 
-Route::get('attendance/{subDay}', [AttendanceController::class, 'subday'])->name('attendance/{subDay}');
-
-
-// Route::get('test/{subDay}', [AttendanceController::class, 'test'])->name('test/{subDay}');
-// Route::get('dateSample', [TimecardController::class, 'dateSample']);
 
 Route::get('logout', [TimecardController::class, 'getLogout'])->name('logout');
 

@@ -15,12 +15,12 @@
       @if($errors->has('name'))
         <p class="error-msg">{{$errors->first('name')}}</p>
       @endif
-      <input type="text" name="name"  placeholder="名前" class="input-content mb-20">
+      <input type="text" name="name" placeholder="名前" value="{{old('name')}}" class="input-content mb-20">
 
       @if($errors->has('email'))
         <p class="error-msg">{{$errors->first('email')}}</p>
       @endif
-      <input type="text" name="email" placeholder="メールアドレス" class="input-content mb-20">
+      <input type="text" name="email" placeholder="メールアドレス" value="{{old('email')}}" class="input-content mb-20">
 
       @if($errors->has('password'))
         <p class="error-msg">{{$errors->first('password')}}</p>

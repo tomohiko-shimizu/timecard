@@ -29,6 +29,6 @@ class LoginController extends Controller
         } else {
             $text = '登録情報がありません。';
         }
-        return view('login', ['text' => $text]);
+        return back()->withInput()->with(['text' => $text]);
     }
 }

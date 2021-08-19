@@ -32,21 +32,8 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // if (User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        // ])) {
-        //     $user = Auth::user()->name;
-        //     return view('index', ['user' => $user]);
-        // };
-
         event(new Registered($user));
-
         Auth::login($user);
-
-        // return redirect(RouteServiceProvider::HOME);
-        // return redirect('/');
         return redirect()->action([TimecardController::class, 'index']);
     }
 }
