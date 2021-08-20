@@ -20,6 +20,12 @@
     font-size: 14px;
     font-weight: bold;
   }
+
+@media screen and (max-width: 480px) {
+  .header-nav {
+    flex-direction: column;
+  }
+}
 </style>
 
 <div class="header flex">

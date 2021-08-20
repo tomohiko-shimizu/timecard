@@ -95,7 +95,7 @@
     }
 
     .main-content {
-      width: 100vw;
+      width: 100%;
       background: #fbfcfe;
       min-height: 80vh;
       position: relative;
@@ -109,6 +109,12 @@
       padding-top: 50px;
       text-align: center;
     }
+
+@media screen and (max-width: 480px){
+  .main-content-card {
+    width: 90%;
+  }
+}
 
     .mb-20 {
     margin-bottom: 20px;
@@ -172,6 +178,17 @@
       transition: 0.4s;
   }
 
+@media screen and (max-width: 768px){
+  .input-content, .button {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 480px){
+  .input-content, .button {
+    width: 80%;
+  }
+}
+
   .msg-alter {
     margin: 0;
     font-size: 12px;
@@ -187,6 +204,10 @@
     color:#CC3333;
   }
 
+  .wrap {
+    overflow: hidden;
+  }
+
 </style>
 </head>
 
@@ -196,11 +217,13 @@
   </header>
 
   <main>
+  <div class="wrap">
     <div class="main-content">
       <div class="main-content-card">
         @yield('content')
       </div>
     </div>
+  </div>
   </main>
 
   <footer>

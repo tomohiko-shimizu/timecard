@@ -12,7 +12,13 @@
     width: 100%;
     margin: 40px auto;
     border-collapse: collapse;
+    table-layout: fixed;
   }
+@media screen and (max-width: 480px){
+  .attendance-table {
+    fon t-size: 12px;
+  }
+}
 
   .button-date {
     border: 1px solid#005FFF;
