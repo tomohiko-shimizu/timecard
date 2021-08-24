@@ -1,6 +1,5 @@
 @extends('layouts.layout')
 @section('title', '日付ページ')
-
 <style>
   th, td {
     border-top: 1px solid gray;
@@ -13,6 +12,10 @@
     margin: 40px auto;
     border-collapse: collapse;
     table-layout: fixed;
+  }
+  svg.w-5.h-5 {  /*paginateメソッドの矢印の大きさ調整のために追加*/
+    width: 30px;
+    height: 30px;
   }
 @media screen and (max-width: 480px){
   .attendance-table {
@@ -31,9 +34,9 @@
 @section('content')
 
 <div class="content-title mb-20">
-  <a class="button-date" href="?date={{$day->subDay()->format('Ymd')}}">＜</a>
-  <h3 class="content-title">{{$day->addDay()->format('Y-m-d')}}</h3>
-  <a class="button-date" href="?date={{$day->addDay()->format('Ymd')}}">＞</a>
+  <a class="button-date" href="?date={{$day->copy()->subDay()->format('Ymd')}}">＜</a>
+  <h3 class="content-title">{{$day->format('Y-m-d')}}</h3>
+  <a class="button-date" href="?date={{$day->copy()->addDay()->format('Ymd')}}">＞</a>
 </div>
 
 <table class="attendance-table">
@@ -55,5 +58,6 @@
   </tr>
 @endforeach
 </table>
+{{ $items->links('vendor.pagination.default') }}
 
 @endsection

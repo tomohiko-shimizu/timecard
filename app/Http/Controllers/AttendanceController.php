@@ -19,7 +19,7 @@ class AttendanceController extends Controller
             $day = new Carbon($date);
         }
 
-        $items = Timecard::where('date', $day)->get();
+        $items = Timecard::where('date', $day)->paginate(1);
 
         return view(
             'attendance',
