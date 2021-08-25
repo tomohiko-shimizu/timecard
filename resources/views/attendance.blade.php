@@ -16,7 +16,7 @@
   }
 @media screen and (max-width: 480px){
   .attendance-table {
-    fon t-size: 12px;
+    font-size: 12px;
   }
 }
 
@@ -31,9 +31,9 @@
 @section('content')
 
 <div class="content-title mb-20">
-  <a class="button-date" href="?date={{$day->subDay()->format('Ymd')}}">＜</a>
-  <h3 class="content-title">{{$day->addDay()->format('Y-m-d')}}</h3>
-  <a class="button-date" href="?date={{$day->addDay()->format('Ymd')}}">＞</a>
+  <a class="button-date" href="?date={{$day->copy()->subDay()->format('Ymd')}}">＜</a>
+  <h3 class="content-title">{{$day->format('Y-m-d')}}</h3>
+  <a class="button-date" href="?date={{$day->copy()->addDay()->format('Ymd')}}">＞</a>
 </div>
 
 <table class="attendance-table">
@@ -55,5 +55,5 @@
   </tr>
 @endforeach
 </table>
-
+{{$items->appends(request()->input())->links()}}
 @endsection
