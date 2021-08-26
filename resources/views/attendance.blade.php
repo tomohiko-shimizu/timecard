@@ -29,7 +29,6 @@
 </style>
 
 @section('content')
-
 <div class="content-title mb-20">
   <a class="button-date" href="?date={{$day->copy()->subDay()->format('Ymd')}}">＜</a>
   <h3 class="content-title">{{$day->format('Y-m-d')}}</h3>

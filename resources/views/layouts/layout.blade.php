@@ -138,6 +138,10 @@
   transition: 0.4s;
 }
 
+.button-timecard:disabled {
+  cursor: auto;
+}
+
 .timecard-container {
   display: flex;
 }
