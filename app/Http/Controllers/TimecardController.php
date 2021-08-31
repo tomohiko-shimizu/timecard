@@ -13,67 +13,47 @@ class TimecardController extends Controller
     {
         $user = Auth::user();
         $today = Carbon::today();
-        $timecardID = Timecard::where('user_id', $user->id)->where('date', $today)->latest()->first();
-
-        // 退勤チェック
-        $timestampForFinishWork = Timecard::where('user_id', $user->id)->where('date', $today)->whereNotNull('work_finish')->latest()->first();
-
-        // 休憩チェック
+        $timecardID =
+            Timecard::where('user_id', $user->id)->where('date', $today)->latest()->first();
         if ($timecardID === null) {
+            $timestampForFinishWork = null;
             $timestampForStartRest = null;
-        } else {
-            $timestampForStartRest = Rest::where('timecard_id', $timecardID->id)->whereNotNull('rest_start')->latest()->first();
-        }
-
-        // 休憩終了チェック
-        if ($timecardID === null) {
             $timestampForFinishRest = null;
         } else {
-            $timestampForFinishRest = Rest::where('timecard_id', $timecardID->id)->WhereNull('rest_finish')->latest()->first();
+// 退勤ボタンが押されたか確認
+            $timestampForFinishWork = Timecard::where('user_id', $user->id)->where('date', $today)->whereNotNull('work_finish')->latest()->first();
+// 休憩ボタンが押されたか確認
+            $timestampForStartRest = Rest::where('timecard_id', $timecardID->id)
+                ->whereNotNull('rest_start')->latest()->first();
+            $timestampForFinishRest = Rest::where('timecard_id', $timecardID->id)
+                ->WhereNull('rest_finish')->latest()->first();
         }
-
-        // ログイン後
-        if ($timecardID === null) {
-            $startedWork = false;
-            $finishedWork = true;
-            $startedRest = true;
-            $finishedRest = true;
-            // 退勤ボタン押した
-        } else if ($timestampForFinishWork !== null) {
-            $startedWork = true;
-            $finishedWork = true;
-            $startedRest = true;
-            $finishedRest = true;
-            // 休憩開始ボタン押した
-        } else if ($timestampForStartRest !== null && $timestampForFinishRest !== null) {
-            $startedWork = true;
-            $finishedWork = true;
-            $startedRest = true;
-            $finishedRest = false;
-            // 休憩終了ボタン押した
-        } else if ($timestampForStartRest !== null && $timestampForFinishRest === null) {
-            $startedWork = true;
-            $finishedWork = false;
-            $startedRest = false;
-            $finishedRest = true;
-            // 出勤ボタン押した
-        } else
+// ログイン時のボタン表示
+        $startedWork = false;
+        $finishedWork = true;
+        $startedRest = true;
+        $finishedRest = true;
+// 出勤ボタン押下後の表示
         if ($timecardID !== null) {
             $startedWork = true;
             $finishedWork = false;
             $startedRest = false;
-            $finishedRest = true;
-        };
+        }
+// 休憩開始・終了ボタン押下時の表示
+        if ($timestampForStartRest !== null && $timestampForFinishRest !== null) {
+            $finishedWork = true;
+            $startedRest = true;
+            $finishedRest = false;
+        }
+// 退勤ボタン押下後の表示
+        if ($timestampForFinishWork !== null) {
+            $finishedWork = true;
+            $startedRest = true;
+        }
 
         return view(
             'index',
-            [
-                'user' => $user,
-                'startedWork' => $startedWork,
-                'finishedWork' => $finishedWork,
-                'startedRest' => $startedRest,
-                'finishedRest' => $finishedRest,
-            ]
+            compact('user', 'startedWork', 'finishedWork', 'startedRest', 'finishedRest')
         );
     }
 
@@ -100,12 +80,10 @@ class TimecardController extends Controller
         $timecardID->update([
             'work_finish' => Carbon::now(),
         ]);
-
         return redirect()->action([TimecardController::class, 'index']);
     }
 
     // 休憩+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     public function restStart()
     {
         $user = Auth::user();
@@ -116,7 +94,6 @@ class TimecardController extends Controller
             'timecard_id' => $timecardID->id,
             'rest_start' => Carbon::now(),
         ]);
-
         return redirect()->action([TimecardController::class, 'index']);
     }
 

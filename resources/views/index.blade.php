@@ -9,6 +9,7 @@
   <form action="{{ route('workstart') }}" method="post" class="form-timecard">
     @csrf
     <button type="submit" class="button-timecard" @if($startedWork) disabled @endif>勤務開始</button>
+
   </form>
 
   <form action="{{ route('workfinish') }}" method="post" class="form-timecard">

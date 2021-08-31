@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Timecard extends Model
 {
@@ -12,7 +13,6 @@ class Timecard extends Model
     protected $guarded = array('id');
 
     protected $dates = ['date', 'work_start', 'work_finish'];
-
 
     public function user()
     {
@@ -23,6 +23,13 @@ class Timecard extends Model
     {
         return $this->hasMany('App\Models\Rest');
     }
+
+    // public static function getWorkRecord()
+    // {
+    //     $user = Auth::user();
+    //     $today = Carbon::today();
+    //     return Timecard::where('user_id', $user->id)->where('date', $today);
+    // }
 
     public function getRestTime()
     {

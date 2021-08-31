@@ -15,4 +15,5 @@ class Rest extends Model
     {
         return $this->belongsTo('App\Models\Timecard', 'timecard_id');
     }
+
 }
