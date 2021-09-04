@@ -4,54 +4,35 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Timecard;
+use Carbon\Carbon;
 
 class HelloTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    // public function testHello()
-    // {
-    //     $this->assertTrue(true);
-
-    //     $arr = [];
-    //     $this->assertEmpty($arr);
-
-    //     $txt = "hello world";
-    //     $this->assertEquals('hello world', $txt);
-
-    //     $n = random_int(0, 100);
-    //     $this->assertLessThan(100, $n);
-    // $response = $this->get('/');
-
-    // $response->assertStatus(200);
-
-    // public function testHello()
-    // {
-    //     $this->assertTrue(true);
-
-    //     $response = $this->get('/');
-    //     $response->assertStatus(200);
-
-    //     $response = $this->get('/no_route');
-    //     $response->assertStatus(404);
-    // }
-
-    public function testHello()
+    use RefreshDatabase;
+    
+    public function testGetWorkTime()
     {
         User::factory()->create([
+            'id' => 1,
             'name' => 'aaa',
             'email' => 'bbb@ccc.com',
-            'password' => 'test12345',
+            'password' => Hash::make('test')
         ]);
-        $this->assertDatabaseHas('users', [
-            'name' => 'aaa',
-            'email' => 'bbb@ccc.com',
-            'password' => 'test12345'
+        // テスト用のTimecardを作る
+        Timecard::factory()->create([
+            'id' => 1,
+            'date' => Carbon::today(),
+            'work_start' =>  Carbon::parse('2021-04-30 10:00:00'),
+            'work_finish' =>  Carbon::parse('2021-04-30 12:01:01')
         ]);
+        
+        // テスト用のTimecardを取得
+        $timecard = Timecard::where('id', 1)->first();
+        // 
+        $this->assertEquals('02:01:01', $timecard->getWorkTime());
     }
 }
