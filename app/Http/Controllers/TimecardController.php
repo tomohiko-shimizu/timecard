@@ -13,47 +13,29 @@ class TimecardController extends Controller
     {
         $user = Auth::user();
         $today = Carbon::today();
-        $timecardID =
-            Timecard::where('user_id', $user->id)->where('date', $today)->latest()->first();
-        if ($timecardID === null) {
-            $timestampForFinishWork = null;
-            $timestampForStartRest = null;
-            $timestampForFinishRest = null;
-        } else {
-// 退勤ボタンが押されたか確認
-            $timestampForFinishWork = Timecard::where('user_id', $user->id)->where('date', $today)->whereNotNull('work_finish')->latest()->first();
-// 休憩ボタンが押されたか確認
-            $timestampForStartRest = Rest::where('timecard_id', $timecardID->id)
-                ->whereNotNull('rest_start')->latest()->first();
-            $timestampForFinishRest = Rest::where('timecard_id', $timecardID->id)
-                ->WhereNull('rest_finish')->latest()->first();
+        $timecard = Timecard::where('user_id', $user->id)->where('date', $today)->first();
+
+        // 勤務開始前か
+        $isWorkingBefore = $timecard === null;
+        // 勤務時間内か(勤務終了を押していない。)
+        $isWorkingTime = false;
+        // 休憩中か？(休憩開始して終了していないRestがある)
+        $isBreakTime = false;
+
+        if (!$isWorkingBefore) {
+            $isWorkingTime = $timecard->work_finish === null;
+            $isBreakTime = !Rest::where('timecard_id', $timecard->id)->whereNull('rest_finish')->get()->isEmpty();
         }
-// ログイン時のボタン表示
-        $startedWork = false;
-        $finishedWork = true;
-        $startedRest = true;
-        $finishedRest = true;
-// 出勤ボタン押下後の表示
-        if ($timecardID !== null) {
-            $startedWork = true;
-            $finishedWork = false;
-            $startedRest = false;
-        }
-// 休憩開始・終了ボタン押下時の表示
-        if ($timestampForStartRest !== null && $timestampForFinishRest !== null) {
-            $finishedWork = true;
-            $startedRest = true;
-            $finishedRest = false;
-        }
-// 退勤ボタン押下後の表示
-        if ($timestampForFinishWork !== null) {
-            $finishedWork = true;
-            $startedRest = true;
-        }
+
+        // 勤務状況からボタンの押せる・押せないを判定する。
+        $workBeginEnable = $isWorkingBefore;
+        $workFinishEnable = $isWorkingTime && !$isBreakTime;
+        $restBeginEnable = $workFinishEnable; // 勤務終了と休憩開始は押せるタイミング同じ
+        $restEndEnable = $isWorkingTime && $isBreakTime;
 
         return view(
             'index',
-            compact('user', 'startedWork', 'finishedWork', 'startedRest', 'finishedRest')
+            compact('user', 'workBeginEnable', 'workFinishEnable', 'restBeginEnable', 'restEndEnable')
         );
     }
 
